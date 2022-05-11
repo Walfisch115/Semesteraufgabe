@@ -1,3 +1,8 @@
-#test test
+import pygame
+import random
 
-#schlauer code
+from pygame.locals import *
+
+# pygame initialisieren
+pygame.init()
+
