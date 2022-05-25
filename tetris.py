@@ -28,18 +28,34 @@ PURPLE = pygame.Color(255, 0, 255)
 # größe 10 x 20
 
 keepGoing = True
-paint = False
 clock = pygame.time.Clock()
 
-# gameloop
+# Gameloop
 while keepGoing:
 
     # fps
     clock.tick(30)
 
+    # Steuerung
     for event in pygame.event.get():
 
+        # Game schließen
         if event.type == pygame.QUIT:
             keepGoing = False
             break
+
+        # Shape rotieren
+        if event.type == KEYDOWN and event.key == K_r:
+
+
+        # Shape nach rechts bewegen
+        if event.type == KEYDOWN and event.key == K_RIGHT:
+
+
+        # Shape nach links bewegen
+        if event.type == KEYDOWN and event.key == K_LEFT:
+
+
+        # Shape fallen lassen
+        if event.type == KEYDOWN and event.key == K_SPACE:
 

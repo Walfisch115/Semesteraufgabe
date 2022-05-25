@@ -37,7 +37,7 @@ def shape(name, rotation=0):
                 [0, 1, 0, 0]
             ]
 
-    if name == 'j':
+    elif name == 'j':
 
         if rotation == 0:
 
@@ -71,7 +71,7 @@ def shape(name, rotation=0):
                 [1, 1, 0]
             ]
 
-    if name == 'l':
+    elif name == 'l':
 
         if rotation == 0:
 
@@ -105,7 +105,7 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
-    if name == 'o':
+    elif name == 'o':
 
         if rotation == 0 or rotation == 90 or rotation == 180 or rotation == 270:
 
@@ -114,7 +114,7 @@ def shape(name, rotation=0):
                 [1, 1]
             ]
 
-    if name == 's':
+    elif name == 's':
 
         if rotation == 0 or rotation == 180:
 
@@ -132,7 +132,7 @@ def shape(name, rotation=0):
                 [0, 0, 1]
             ]
 
-    if name == 't':
+    elif name == 't':
 
         if rotation == 0:
 
@@ -166,7 +166,7 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
-    if name == 'z':
+    elif name == 'z':
 
         if rotation == 0 or rotation == 180:
 
