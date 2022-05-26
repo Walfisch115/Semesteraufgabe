@@ -3,21 +3,24 @@ import random
 
 from pygame.locals import *
 
-# spielfiguren
-# I, J, L, O, S, T und Z
 
-# bausteine rendern
+# Spielfiguren
+shapeColors = {
+    'I': (0, 255, 255),  # LIGHT_BLUE
+    'J': (0, 0, 255),    # BLUE
+    'L': (255, 128, 0),  # ORANGE
+    'O': (255, 255, 0),  # YELLOW
+    'S': (0, 255, 0),    # GREEN
+    'T': (255, 0, 255),  # PURPLE
+    'Z': (255, 0, 0)     # RED
+}
 
-# name der shapes ist hier in der schleife noch falsch, ich hatte die nochmal umbenannt
-'''for h in range(len(shapes.shape_i)):
-    for w in range(len(shapes.shape_i[0])):
-        if shapes.shape_i[h][w] != 0:
-            pygame.draw.rect(window, (255, 0, 255), (w * 10, h * 10, 10, 10))'''
 
+# Gibt Matrix der Spielfigur zurück
+# Parameter: Name und Rotation (0 Grad, 90 Grad, 180 Grad, 270 Grad)
+def shape_matrix(name, rotation):
 
-def shape(name, rotation=0):
-
-    if name == 'i':
+    if name == 'I':
 
         if rotation == 0 or rotation == 180:
 
@@ -28,6 +31,8 @@ def shape(name, rotation=0):
                 [0, 0, 0, 0]
             ]
 
+            return shape_i
+
         elif rotation == 90 or rotation == 270:
 
             shape_i = [
@@ -37,7 +42,9 @@ def shape(name, rotation=0):
                 [0, 1, 0, 0]
             ]
 
-    elif name == 'j':
+            return shape_i
+
+    elif name == 'J':
 
         if rotation == 0:
 
@@ -47,6 +54,8 @@ def shape(name, rotation=0):
                 [0, 0, 0]
             ]
 
+            return shape_j
+
         elif rotation == 90:
 
             shape_j = [
@@ -55,6 +64,8 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
+            return shape_j
+
         elif rotation == 180:
 
             shape_j = [
@@ -62,6 +73,8 @@ def shape(name, rotation=0):
                 [1, 1, 1],
                 [0, 0, 1]
             ]
+
+            return shape_j
 
         elif rotation == 270:
 
@@ -71,7 +84,9 @@ def shape(name, rotation=0):
                 [1, 1, 0]
             ]
 
-    elif name == 'l':
+            return shape_j
+
+    elif name == 'L':
 
         if rotation == 0:
 
@@ -80,6 +95,8 @@ def shape(name, rotation=0):
                 [1, 1, 1],
                 [0, 0, 0]
             ]
+
+            return shape_l
 
         elif rotation == 90:
 
@@ -89,6 +106,8 @@ def shape(name, rotation=0):
                 [0, 1, 1]
             ]
 
+            return shape_l
+
         elif rotation == 180:
 
             shape_l = [
@@ -96,6 +115,8 @@ def shape(name, rotation=0):
                 [1, 1, 1],
                 [1, 0, 0]
             ]
+
+            return shape_l
 
         elif rotation == 270:
 
@@ -105,7 +126,9 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
-    elif name == 'o':
+            return shape_l
+
+    elif name == 'O':
 
         if rotation == 0 or rotation == 90 or rotation == 180 or rotation == 270:
 
@@ -114,7 +137,9 @@ def shape(name, rotation=0):
                 [1, 1]
             ]
 
-    elif name == 's':
+            return shape_o
+
+    elif name == 'S':
 
         if rotation == 0 or rotation == 180:
 
@@ -123,6 +148,8 @@ def shape(name, rotation=0):
                 [1, 1, 0],
                 [0, 0, 0]
             ]
+
+            return shape_s
 
         elif rotation == 90 or rotation == 270:
 
@@ -132,7 +159,9 @@ def shape(name, rotation=0):
                 [0, 0, 1]
             ]
 
-    elif name == 't':
+            return shape_s
+
+    elif name == 'T':
 
         if rotation == 0:
 
@@ -142,6 +171,8 @@ def shape(name, rotation=0):
                 [0, 0, 0]
             ]
 
+            return shape_t
+
         elif rotation == 90:
 
             shape_t = [
@@ -149,6 +180,8 @@ def shape(name, rotation=0):
                 [0, 1, 1],
                 [0, 1, 0]
             ]
+
+            return shape_t
 
         elif rotation == 180:
 
@@ -158,6 +191,8 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
+            return shape_t
+
         elif rotation == 270:
 
             shape_t = [
@@ -166,7 +201,9 @@ def shape(name, rotation=0):
                 [0, 1, 0]
             ]
 
-    elif name == 'z':
+            return shape_t
+
+    elif name == 'Z':
 
         if rotation == 0 or rotation == 180:
 
@@ -176,6 +213,8 @@ def shape(name, rotation=0):
                 [0, 0, 0]
             ]
 
+            return shape_z
+
         elif rotation == 90 or rotation == 270:
 
             shape_z = [
@@ -183,3 +222,69 @@ def shape(name, rotation=0):
                 [0, 1, 1],
                 [0, 1, 0]
             ]
+
+            return shape_z
+
+
+'''function* randomGenerator() {
+  let bag = [];
+
+  while (true) {
+    if (bag.length === 0) {
+      bag = ["I", "J", "L", "O", "S", "T", "Z"];
+      bag = shuffle(bag);
+    }
+    yield bag.pop();
+  }
+}'''
+
+
+# Packt alle 7 Spielfiguren in einen Beutel und zieht eine nach der anderen, bis der Beutel leer.
+# Beginnt dann wieder von vorne.
+def random_shape():
+
+    beutel = []
+    keep_going = True
+
+    while keep_going:
+
+        if len(beutel) == 0:
+            beutel = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']
+
+        shape = beutel[random.randint(0, 6)]
+        beutel.pop(shape)
+
+        next_shape = beutel[random.randint(0, 6)]
+        beutel.pop(next_shape)
+
+        return shape, next_shape
+
+
+class Shape:
+
+    def __init__(self, x_coordinate, y_coordinate, name):
+        self.x = x_coordinate
+        self.y = y_coordinate
+        self.shape = name
+        self.color = name
+        self.rotation = 0  # default
+
+    # Gibt Matrix der Spielfigur zurück
+    def image_of_shape(self):
+        return shape_matrix(self.shape, self.rotation)
+
+    # im Uhrzeigersinn drehen
+    def rotate_right(self):
+        if self.rotation == 0 or self.rotation == 90 or self.rotation == 180:
+            self.rotation += 90
+
+        elif self.rotation == 270:
+            self.rotation = 0
+
+    # gegen den Uhrzeigersinn drehen
+    def rotate_left(self):
+        if self.rotation == 270 or self.rotation == 180 or self.rotation == 90:
+            self.rotation -= 90
+
+        elif self.rotation == 0:
+            self.rotation = 270
