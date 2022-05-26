@@ -226,19 +226,6 @@ def shape_matrix(name, rotation):
             return shape_z
 
 
-'''function* randomGenerator() {
-  let bag = [];
-
-  while (true) {
-    if (bag.length === 0) {
-      bag = ["I", "J", "L", "O", "S", "T", "Z"];
-      bag = shuffle(bag);
-    }
-    yield bag.pop();
-  }
-}'''
-
-
 # Packt alle 7 Spielfiguren in einen Beutel und zieht eine nach der anderen, bis der Beutel leer ist.
 # Beginnt dann wieder von vorne.
 def random_shape():

@@ -9,16 +9,16 @@ from pygame.locals import *
 # Steuerung:
 # LEFT - nach links bewegen
 # RIGHT - nach rechts bewegen
-# rotate left - Figur gegen den Uhrzeigersinn drehen
-# rotate right - Figur im Uhrzeigersinn drehen
+# rotate_left - Figur gegen den Uhrzeigersinn drehen
+# rotate_right - Figur im Uhrzeigersinn drehen
 # SPACE - Figur sofort zum Boden fallen lassen
 # (DOWN - Figur doppelt so schnell fallen lassen)
 
 # Spielfeld:
-# 10x20 Blöcke
+# 10x20 Blöcke Matrix
 # Rahmen
-# Raster?
-# Vorschau nächste Spielfigur?
+# Raster
+# Vorschau nächste Spielfigur
 # Scoreboard
 
 # Power-Ups:
@@ -29,9 +29,14 @@ from pygame.locals import *
 # Sonstiges:
 # Game Over
 # Highscore mit Name in Bestenliste speichern
-# Menü um aus verschieden Modi zu wählen
+# Menü um aus verschieden Modi zu wählen?
 # -> klassischer Modus
 # -> ultimativer Modus (mit Power-Ups, Spielfeld evtl. 20x20 Blöcke?)
+
+# Spielfeld als Matrix
+# Figuren als Matrix
+# Figuren immer eine Reihe runter laufen lassen, bis sie auf bereits eingefrorene Figur stößt
+# Wenn eine Reihe komplett ist, Reihe löschen (und "schwebende" Blöcke runterfallen lassen)
 
 
 # pygame initialisieren
