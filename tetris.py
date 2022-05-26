@@ -36,7 +36,8 @@ from pygame.locals import *
 # Spielfeld als Matrix
 # Figuren als Matrix
 # Figuren immer eine Reihe runter laufen lassen, bis sie auf bereits eingefrorene Figur stößt
-# Wenn eine Reihe komplett ist, Reihe löschen (und "schwebende" Blöcke runterfallen lassen)
+# Wenn eine Reihe komplett ist, Reihe löschen, Score erhöhen, (und "schwebende" Blöcke runterfallen lassen)
+# nach 10 gelöschten Reihen Spielgeschwindigkeit erhöhen
 
 
 # pygame initialisieren
