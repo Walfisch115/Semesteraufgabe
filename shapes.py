@@ -239,7 +239,7 @@ def shape_matrix(name, rotation):
 }'''
 
 
-# Packt alle 7 Spielfiguren in einen Beutel und zieht eine nach der anderen, bis der Beutel leer.
+# Packt alle 7 Spielfiguren in einen Beutel und zieht eine nach der anderen, bis der Beutel leer ist.
 # Beginnt dann wieder von vorne.
 def random_shape():
 
@@ -252,10 +252,10 @@ def random_shape():
             beutel = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']
 
         shape = beutel[random.randint(0, 6)]
-        beutel.pop(shape)
+        beutel.remove(shape)
 
         next_shape = beutel[random.randint(0, 6)]
-        beutel.pop(next_shape)
+        beutel.remove(next_shape)
 
         return shape, next_shape
 
