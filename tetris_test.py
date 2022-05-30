@@ -245,22 +245,7 @@ class Game:
                 matrix_x += 1
             run_y += 1
             matrix_y += 1
-        #self.break()
         self.create_shape()
-    """
-    def break(self):
-        matrix_x = 0
-        matrix_y = 0
-
-        for i in range (len(self.matrix)):
-            matrix_x = 0
-            if self.matrix[matrix_y].count(1) == len(self.matrix[matrix_y]):
-                for j in range(len(self.matrix[matrix_y])):
-                    self.matrix[matrix_y][matrix_x] = 0
-                    matrix_x += 1
-            matrix_y += 1
-        print(self.matrix)
-    """
 
     #Kollision der x Werte testen
     def collision_x(self, x):
