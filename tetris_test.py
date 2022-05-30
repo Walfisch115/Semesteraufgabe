@@ -16,40 +16,38 @@ pygame.display.set_caption('Tetris')
 
 #Entities
 
-#Klassen können später ausgelagert werden, find's für den Anfang nur einfacher so zu arbeiten 
+#Klassen können später ausgelagert werden, find's für den Anfang nur einfacher so zu arbeiten
 
 class Shape:
     #Tetrominoes aka Spielsteine
-    O = [[[0,1,1,0],
-          [0,1,1,0]],
-         [[0,1,1,0],
-          [0,1,1,0]]]
+    O = [[[0,1,1],
+          [0,1,1]],
+         [[0,1,1],
+          [0,1,1]]]
 
     S = [[[0,1,1],
-          [1,1,0],
-          [0,0,0]],
+          [1,1,0]],
          [[0,1,0],
           [0,1,1],
           [0,0,1]],
          [[0,0,0],
           [0,1,1],
           [1,1,0]],
-         [[1,0,0],
-          [1,1,0],
-          [0,1,0]]]
+         [[1,0],
+          [1,1],
+          [0,1]]]
 
     Z = [[[1,1,0],
-          [0,1,1],
-          [0,0,0]],
+          [0,1,1]],
          [[0,0,1],
           [0,1,1],
           [0,1,0]],
          [[0,0,0],
           [1,1,0],
           [0,1,1]],
-         [[0,1,0],
-          [1,1,0],
-          [1,0,0]]]
+         [[0,1],
+          [1,1],
+          [1,0]]]
 
     I = [[[0,0,0,0],
           [1,1,1,1]],
@@ -66,54 +64,57 @@ class Shape:
           [0,1]]]
 
     J = [[[1,0,0],
-          [1,1,1],
-          [0,0,0]],
+          [1,1,1]],
          [[0,1,1],
           [0,1,0],
           [0,1,0]],
          [[0,0,0],
           [1,1,1],
           [0,0,1]],
-         [[0,1,0],
-          [0,1,0],
-          [1,1,0]]]
+         [[0,1],
+          [0,1],
+          [1,1]]]
 
     L = [[[0,0,1],
-          [1,1,1],
-          [0,0,0]],
+          [1,1,1]],
          [[0,1,0],
           [0,1,0],
           [0,1,1]],
          [[0,0,0],
           [1,1,1],
           [1,0,0]],
-         [[1,1,0],
-          [0,1,0],
-          [0,1,0]]]
+         [[1,1],
+          [0,1],
+          [0,1]]]
 
     T = [[[0,1,0],
-          [1,1,1],
-          [0,0,0]],
+          [1,1,1]],
          [[0,1,0],
           [0,1,1],
           [0,1,0]],
          [[0,0,0],
           [1,1,1],
           [0,1,0]],
-         [[0,1,0],
-          [1,1,0],
-          [0,1,0]]]
+         [[0,1],
+          [1,1],
+          [0,1]]]
 
     #Zugriff auf alle Formen über diese Liste
     shapes = [O, S, Z, I, J, L, T]
 
+    x = 0
+    y = 0
+
     #Damit anfangs ein ein nächstes und gegenwärtiges Stück initialisiert werden
     next = -1
 
-    def __init__(self):
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
         self.bag = []
         self.rotation = 0
-        self.piece = -1
+        #self.piece = -1
 
         #Beutelprinzip
         if len(self.bag) == 0:
@@ -188,7 +189,7 @@ class Game:
 
     #Initiallisierung der Matrix (auf 0) als Liste aus Listen
     #Eine Liste entspricht immer einer Zeile
-    def __init__(self, heigth, width, tile):
+    def __init__(self, height, width, tile):
         self.height = height
         self.width = width
         self.tile = tile * self.tile
@@ -210,25 +211,145 @@ class Game:
 
     #Fügt Spielfigur in die Matrix ein (als 1)
     def create_shape(self):
-        self.shape = Shape()
+        self.shape = Shape(3, 0)
         self.piece = self.shape.get_image()
         self.color = self.shape.get_color()
+        self.set_1(0,0)
+
+    #Steuerung
+    def down(self):
+        self.set_0()
+        self.set_1(0,1)
+
+    def left(self):
+        self.set_0()
+        self.set_1(-1,0)
+
+    def right(self):
+        self.set_0()
+        self.set_1(1,0)
+
+    #Festsetzen der Steine
+    def freeze(self):
         run_x = 0
         run_y = 0
-        matrix_x = 3
-        matrix_y = 0
-        #print(self.piece)
+        matrix_x = self.shape.x
+        matrix_y = self.shape.y
         for i in range(len(self.piece)):
             run_x = 0
-            matrix_x = 3
+            matrix_x = self.shape.x
             for j in range(len(self.piece[run_y])):
                 if self.piece[run_y][run_x] == 1:
-                    self.matrix[matrix_y][matrix_x] = 1
+                    self.matrix[matrix_y][matrix_x] = 2
                 run_x += 1
                 matrix_x += 1
             run_y += 1
             matrix_y += 1
-        #print(self.matrix)
+        #self.break()
+        self.create_shape()
+    """
+    def break(self):
+        matrix_x = 0
+        matrix_y = 0
+
+        for i in range (len(self.matrix)):
+            matrix_x = 0
+            if self.matrix[matrix_y].count(1) == len(self.matrix[matrix_y]):
+                for j in range(len(self.matrix[matrix_y])):
+                    self.matrix[matrix_y][matrix_x] = 0
+                    matrix_x += 1
+            matrix_y += 1
+        print(self.matrix)
+    """
+
+    #Kollision der x Werte testen
+    def collision_x(self, x):
+        collision_x = x
+        border_x = len(self.matrix[0])
+        if len(self.piece[0]) + collision_x > border_x:
+            return True
+        elif collision_x < 0:
+            for i in range(len(self.piece)):
+                if self.piece[i][0] == 1:
+                    return True
+        return False
+
+    #Kollision der y Werte Testen
+    def collision_y(self, y):
+        collision_y = y
+        border_y = len(self.matrix)
+        if len(self.piece) + collision_y > border_y:
+            return True
+        return False
+
+    #Kollision mit anderen Figuren testen
+    def collision_shape(self, x, y):
+        collision_x = x
+        collision_y = y
+        run_x = 0
+        run_y = 0
+        for i in range(len(self.piece)):
+            run_x = 0
+            collision_x = x
+            for j in range(len(self.piece[run_y])):
+                if self.piece[run_y][run_x] == 1 and self.matrix[collision_y][collision_x] == 2:
+                    return True
+                run_x += 1
+                collision_x += 1
+            run_y += 1
+            collision_y += 1
+        return False
+
+    #Figur auf 0 setzen
+    def set_0(self):
+        run_x = 0
+        run_y = 0
+        matrix_x = self.shape.x
+        matrix_y = self.shape.y
+        for i in range(len(self.piece)):
+            run_x = 0
+            matrix_x = self.shape.x
+            for j in range(len(self.piece[run_y])):
+                if self.matrix[matrix_y][matrix_x] == 1:
+                    self.matrix[matrix_y][matrix_x] = 0
+                run_x += 1
+                matrix_x += 1
+            run_y += 1
+            matrix_y += 1
+
+    #Figur initialisieren (auf 1 setzen)
+    def set_1(self, offset_x, offset_y):
+        x = offset_x
+        y = offset_y
+        run_x = 0
+        run_y = 0
+        matrix_x = self.shape.x + x
+        matrix_y = self.shape.y + y
+        col_x = self.collision_x(matrix_x)
+        col_y = self.collision_y(matrix_y)
+        if col_x:
+            self.set_1(0,0)
+        elif col_y:
+            self.set_1(0,0)
+            self.freeze()
+        else:
+            col_shape = self.collision_shape(matrix_x, matrix_y)
+            if col_shape:
+                self.set_1(0,0)
+                self.freeze()
+            else:
+                for i in range(len(self.piece)):
+                    run_x = 0
+                    matrix_x = self.shape.x + x
+                    for j in range(len(self.piece[run_y])):
+                        if self.piece[run_y][run_x] == 1 and self.matrix[matrix_y][matrix_x] != 2:
+                            self.matrix[matrix_y][matrix_x] = 1
+                        run_x += 1
+                        matrix_x += 1
+                    run_y += 1
+                    matrix_y += 1
+                self.shape.x += x
+                self.shape.y += y
 
     #Zeichnet Spielfeld und Spielfiguren
     def draw(self):
@@ -269,6 +390,8 @@ class Game:
         box = pygame.draw.rect(screen, BLACK, pygame.Rect(self.x_base, self.y_base, self.width*self.tile, self.height*self.tile), 3)
 
 
+
+
 # Action --> ALTER
 # Assign Variables
 
@@ -299,6 +422,7 @@ game = Game(height, width, tile)
 game.create_shape()
 game.draw()
 
+
 keepGoing = True
 
 clock = pygame.time.Clock()
@@ -319,9 +443,28 @@ while keepGoing:
             keepGoing = False
             break
 
-        #if event.type == pygame.KEYDOWN:
-            #if event.key == pygame.K_w:
-
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                game.down()
+                game.draw()
+            elif event.key == pygame.K_LEFT:
+                game.left()
+                game.draw()
+            elif event.key == pygame.K_RIGHT:
+                game.right()
+                game.draw()
+            elif event.key == pygame.K_a:
+                game.shape.rotate_right()
+                game.set_0()
+                game.shape.get_image()
+                game.set_1(0,0)
+                game.draw()
+            elif event.key == pygame.K_s:
+                game.shape.rotate_right()
+                game.set_0()
+                game.shape.get_image()
+                game.set_1(0,0)
+                game.draw()
 
     # Redisplay
     pygame.display.flip()
