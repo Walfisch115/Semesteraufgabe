@@ -4,6 +4,9 @@ import random
 
 from pygame.locals import *
 
+#Zum erstellen der Highscore Datenbank
+import tetris_score_db
+
 pygame.init()
 
 #Display configuration
@@ -233,14 +236,25 @@ class Game:
             self.set_1(0,0)
             self.set_new_1()
         else:
+            self.set_highscore()
             self.play = False
 
     #Update für Rotationen
-    def update_shape(self, rot):
+    def update_shape(self, rot, dir):
         self.set_0()
+        direction = dir
         start_rot = rot
         self.piece = self.shape.get_image()
-
+        col_shape = self.collision_shape(self.shape.x, self.shape.y)
+        if col_shape:
+            if dir == 'left':
+                old_rot = game.shape.rotation
+                self.shape.rotate_right()
+                game.update_shape(old_rot, 'right')
+            elif dir == 'right':
+                old_rot = game.shape.rotation
+                game.shape.rotate_left()
+                game.update_shape(old_rot, 'left')
         if self.collision_x(self.shape.x) and self.shape.x <= 0:
             if self.shape.x == -2:
                 self.set_1(2,0)
@@ -576,6 +590,13 @@ class Game:
                 self.next_matrix[matrix_y][matrix_x] = 0
                 matrix_x += 1
             matrix_y += 1
+            
+    #neuen highscore setzten falls eingetreten
+    def set_highscore(self):
+        global highscore
+        tetris_score_db.new_highscore(self.score)
+        highscore = tetris_score_db.get_highscore()
+        highscore = highscore[0][0]
 
 # Action --> ALTER
 # Assign Variables
@@ -602,6 +623,13 @@ next = -1
 next_figure = 0
 old_color = 0
 
+#Highscore setzen
+highscore = tetris_score_db.get_highscore()
+if not highscore:
+    highscore = 0
+else:
+    highscore = highscore[0][0]
+
 #Initialiseierungswerte
 height = 20
 width = 10
@@ -616,6 +644,7 @@ level = font_1.render(f'Level: {game.level}', True, WHITE)
 score = font_1.render('Score: ', True, WHITE)
 points = font_1.render(f'{game.score}', True, WHITE)
 incoming = font_1.render('Next: ', True, WHITE)
+h_score = font_1.render(f'Highscore: {highscore}', True, WHITE)
 
 font_2 = pygame.font.Font(None, 70)
 restart = font_2.render("Press R to Restart", True, GREY)
@@ -672,12 +701,12 @@ while keepGoing:
                 elif event.key == pygame.K_a:
                     old_rot = game.shape.rotation
                     game.shape.rotate_left()
-                    game.update_shape(old_rot)
+                    game.update_shape(old_rot, 'left')
                     game.draw()
                 elif event.key == pygame.K_s:
                     old_rot = game.shape.rotation
                     game.shape.rotate_right()
-                    game.update_shape(old_rot)
+                    game.update_shape(old_rot, 'right')
                     game.draw()
 
             elif event.type == pygame.KEYUP:
@@ -712,8 +741,10 @@ while keepGoing:
     screen.blit(incoming, (game.x_next_base,game.y_next_base-30))
     points = font_1.render(f'{game.score}', True, WHITE)
     level = font_1.render(f'Level: {game.level}', True, WHITE)
+    h_score = font_1.render(f'Highscore: {highscore}', True, WHITE)
     screen.blit(points, (10,40))
     screen.blit(level, (screen_width-125, 10))
+    screen.blit(h_score, (10, game.y_base+410))
     if not game.play:
         screen.blit(restart, rect_1)
     pygame.display.flip()
