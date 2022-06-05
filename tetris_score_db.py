@@ -1,6 +1,7 @@
 import sqlite3
 
-#Erstellt Tabelle
+
+# Erstellt Tabelle
 def create_table(db):
     c = db.cursor()
     c.execute("""
@@ -11,7 +12,8 @@ def create_table(db):
     """)
     db.commit()
 
-#Gibt derzeitigen Highscore zurück (als Tupel einer Liste)
+
+# Gibt derzeitigen Highscore zurück (als Tupel einer Liste)
 def get_highscore():
     db = sqlite3.connect('highscore_db.sqlite')
     create_table(db)
@@ -20,7 +22,8 @@ def get_highscore():
     r = c.fetchall()
     return r
 
-#Setzt neuen Highscore falls höher
+
+# Setzt neuen Highscore falls höher
 def new_highscore(new_score):
     db = sqlite3.connect('highscore_db.sqlite')
     create_table(db)

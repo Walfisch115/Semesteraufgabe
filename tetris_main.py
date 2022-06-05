@@ -9,105 +9,105 @@ import tetris_score_db
 
 pygame.init()
 
-#Display configuration
+# Display configuration
 screen_width = 500
 screen_height = 500
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Tetris')
 
-#Entities
-screen.fill((0,0,0))
+# Entities
+screen.fill((0, 0, 0))
 
-#Klassen können später ausgelagert werden, find's für den Anfang nur einfacher so zu arbeiten
+# Klassen können später ausgelagert werden, find's für den Anfang nur einfacher so zu arbeiten
+
 
 class Shape:
 
-    #Tetrominoes aka Spielsteine
-    O = [[[0,1,1],
-          [0,1,1]],
-         [[0,1,1],
-          [0,1,1]]]
+    # Tetrominoes aka Spielsteine
+    O = [[[0, 1, 1],
+          [0, 1, 1]],
+         [[0, 1, 1],
+          [0, 1, 1]]]
 
-    S = [[[0,1,1],
-          [1,1,0]],
-         [[0,1,0],
-          [0,1,1],
-          [0,0,1]],
-         [[0,0,0],
-          [0,1,1],
-          [1,1,0]],
-         [[1,0],
-          [1,1],
-          [0,1]]]
+    S = [[[0, 1, 1],
+          [1, 1, 0]],
+         [[0, 1, 0],
+          [0, 1, 1],
+          [0, 0, 1]],
+         [[0, 0, 0],
+          [0, 1, 1],
+          [1, 1, 0]],
+         [[1, 0],
+          [1, 1],
+          [0, 1]]]
 
-    Z = [[[1,1,0],
-          [0,1,1]],
-         [[0,0,1],
-          [0,1,1],
-          [0,1,0]],
-         [[0,0,0],
-          [1,1,0],
-          [0,1,1]],
-         [[0,1],
-          [1,1],
-          [1,0]]]
+    Z = [[[1, 1, 0],
+          [0, 1, 1]],
+         [[0, 0, 1],
+          [0, 1, 1],
+          [0, 1, 0]],
+         [[0, 0, 0],
+          [1, 1, 0],
+          [0, 1, 1]],
+         [[0, 1],
+          [1, 1],
+          [1, 0]]]
 
-    I = [[[0,0,0,0],
-          [1,1,1,1]],
-         [[0,0,1],
-          [0,0,1],
-          [0,0,1],
-          [0,0,1]],
-         [[0,0,0,0],
-          [0,0,0,0],
-          [1,1,1,1]],
-         [[0,1],
-          [0,1],
-          [0,1],
-          [0,1]]]
+    I = [[[0, 0, 0, 0],
+          [1, 1, 1, 1]],
+         [[0, 0, 1],
+          [0, 0, 1],
+          [0, 0, 1],
+          [0, 0, 1]],
+         [[0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [1, 1, 1, 1]],
+         [[0, 1],
+          [0, 1],
+          [0, 1],
+          [0, 1]]]
 
-    J = [[[1,0,0],
-          [1,1,1]],
-         [[0,1,1],
-          [0,1,0],
-          [0,1,0]],
-         [[0,0,0],
-          [1,1,1],
-          [0,0,1]],
-         [[0,1],
-          [0,1],
-          [1,1]]]
+    J = [[[1, 0, 0],
+          [1, 1, 1]],
+         [[0, 1, 1],
+          [0, 1, 0],
+          [0, 1, 0]],
+         [[0, 0, 0],
+          [1, 1, 1],
+          [0, 0, 1]],
+         [[0, 1],
+          [0, 1],
+          [1, 1]]]
 
-    L = [[[0,0,1],
-          [1,1,1]],
-         [[0,1,0],
-          [0,1,0],
-          [0,1,1]],
-         [[0,0,0],
-          [1,1,1],
-          [1,0,0]],
-         [[1,1],
-          [0,1],
-          [0,1]]]
+    L = [[[0, 0, 1],
+          [1, 1, 1]],
+         [[0, 1, 0],
+          [0, 1, 0],
+          [0, 1, 1]],
+         [[0, 0, 0],
+          [1, 1, 1],
+          [1, 0, 0]],
+         [[1, 1],
+          [0, 1],
+          [0, 1]]]
 
-    T = [[[0,1,0],
-          [1,1,1]],
-         [[0,1,0],
-          [0,1,1],
-          [0,1,0]],
-         [[0,0,0],
-          [1,1,1],
-          [0,1,0]],
-         [[0,1],
-          [1,1],
-          [0,1]]]
+    T = [[[0, 1, 0],
+          [1, 1, 1]],
+         [[0, 1, 0],
+          [0, 1, 1],
+          [0, 1, 0]],
+         [[0, 0, 0],
+          [1, 1, 1],
+          [0, 1, 0]],
+         [[0, 1],
+          [1, 1],
+          [0, 1]]]
 
-    #Zugriff auf alle Formen über diese Liste
+    # Zugriff auf alle Formen über diese Liste
     shapes = [O, S, Z, I, J, L, T]
 
     x = 0
     y = 0
-
 
     def __init__(self, x, y):
         global bag, next, next_figure
@@ -115,7 +115,8 @@ class Shape:
         self.y = y
         self.rotation = 0
 
-        #Initatliersiert eine neues gegenwätiges und nächstes stück falls es noch kein nächstes gibt (wird also eigentlich nur beim Ersten mal aufgerufen)
+        # Initialisiert ein neues gegenwärtiges und nächstes Stück, falls es noch kein nächstes gibt
+        # (wird also eigentlich nur beim Ersten mal aufgerufen)
         if next == -1:
             self.type = (random.randint(0, len(bag)-1))
             self.figure = bag[self.type]
@@ -124,8 +125,8 @@ class Shape:
             next = (random.randint(0, len(bag)-1))
             next_figure = bag[next]
 
-
-        #Falls schon ein nächstes Stück initatlisiert ist wird das übernommen und ein neues "nächstes" Stück initiallisiert
+        # Falls schon ein nächstes Stück initialisiert ist wird das übernommen
+        # und ein neues "nächstes" Stück initialisiert
         else:
             self.type = next
             self.figure = next_figure
@@ -140,7 +141,7 @@ class Shape:
                 next = (random.randint(0, len(bag)-1))
             next_figure = bag[next]
 
-        #Zuweisung der Spielfigur
+        # Zuweisung der Spielfigur
         if self.figure == "O":
             self.piece = 0
         elif self.figure == "S":
@@ -156,73 +157,75 @@ class Shape:
         elif self.figure == "T":
             self.piece = 6
 
-    #Rotationen noch nicht getestet!!!
+    # Rotationen
     def rotate_right(self):
         self.rotation = (self.rotation+1) % len(self.shapes[self.piece])
+
     def rotate_left(self):
         self.rotation = (self.rotation-1) % len(self.shapes[self.piece])
 
-    #Gibt gegenwätige Figur zurück
+    # Gibt gegenwärtige Figur zurück
     def get_image(self):
         return self.shapes[self.piece][self.rotation]
 
-    #Gibt die zugewisene Farbe der gegenwärtigen Figur
+    # Gibt die zugewiesene Farbe der gegenwärtigen Figur zurück
     def get_color(self):
         return self.figure
+
 
 class Game:
     global next_figure
     height = 0
     width = 0
-    tile = 20 #Feldgröße
+    tile = 20  # Feldgröße
 
-    #Obere linke ecke des Spielfeldes
+    # Obere linke Ecke des Spielfeldes
     x_base = screen_width//2-5*tile
     y_base = screen_height//2-10*tile
 
-    #Obere linke Ecke des Next Kasten
+    # Obere linke Ecke des Next Kasten
     x_next_base = screen_width//2+7*tile
     y_next_base = screen_height//2-1*tile
 
-    #Matrix
+    # Matrix
     matrix = []
     next_matrix = []
 
-    #Score und Spielzustand
+    # Score und Spielzustand
     play = True
     line_counter = 0
     score = 0
     level = 0
 
-    #Initiallisierung der Matrix (auf 0) als Liste aus Listen
-    #Eine Liste entspricht immer einer Zeile
+    # Initialisierung der Matrix (auf 0) als Liste aus Listen
+    # Eine Liste entspricht immer einer Zeile
     def __init__(self, height, width, tile):
         self.height = height
         self.width = width
         self.tile = tile * self.tile
 
-        #Spawnzone zwei Felder über der Spielfeld (muss im fertigen Spiel nicht mit angezeigt werden)
+        # Spawnzone zwei Felder über dem Spielfeld (muss im fertigen Spiel nicht mit angezeigt werden)
         for i in range(2):
             line = []
             for j in range(self.width):
                 line.append(0)
             self.matrix.append(line)
 
-        #Spielfeld
+        # Spielfeld
         for i in range(self.height):
             line = []
             for j in range(self.width):
                 line.append(0)
             self.matrix.append(line)
 
-        #nächster Stein anzeige
+        # nächsten Stein anzeigen
         for i in range(2):
             line = []
             for j in range(4):
                 line.append(0)
             self.next_matrix.append(line)
 
-    #Fügt Spielfigur in die Matrix ein (als 1)
+    # Fügt Spielfigur in die Matrix ein (als 1)
     def create_shape(self):
         global old_color
         if not self.end_game() and self.play:
@@ -239,7 +242,7 @@ class Game:
             self.set_highscore()
             self.play = False
 
-    #Update für Rotationen
+    # Update für Rotationen
     def update_shape(self, rot, dir):
         self.set_0()
         direction = dir
@@ -257,57 +260,57 @@ class Game:
                 game.update_shape(old_rot, 'left')
         if self.collision_x(self.shape.x) and self.shape.x <= 0:
             if self.shape.x == -2:
-                self.set_1(2,0)
+                self.set_1(2, 0)
                 return
             elif self.shape.x == -1:
-                self.set_1(1,0)
+                self.set_1(1, 0)
                 return
             elif self.shape.piece == 0:
-                self.set_1(0,0)
+                self.set_1(0, 0)
                 return
             elif start_rot == 1:
-                self.set_1(1,0)
+                self.set_1(1, 0)
                 return
         elif self.collision_x(self.shape.x):
             if self.collision_x(self.shape.x-1):
-                self.set_1(-2,0)
+                self.set_1(-2, 0)
                 return
             elif self.shape.piece == 3 and start_rot == 1:
-                self.set_1(-1,0)
+                self.set_1(-1, 0)
                 return
             elif start_rot == 3:
-                self.set_1(-1,0)
+                self.set_1(-1, 0)
                 return
         elif self.collision_y(self.shape.y) and self.shape.piece == 3:
             if self.shape.y == 20 and start_rot == 0:
-                self.set_1(0,-2)
+                self.set_1(0, -2)
                 return
             if self.shape.y == 19 and start_rot == 0:
-                self.set_1(0,-1)
+                self.set_1(0, -1)
                 return
             elif self.shape.y == 20 and start_rot == 2:
-                self.set_1(0,-1)
+                self.set_1(0, -1)
                 return
-        self.set_1(0,0)
+        self.set_1(0, 0)
 
-    #Steuerung
+    # Steuerung
     def down(self):
         self.set_0()
-        self.set_1(0,1)
+        self.set_1(0, 1)
 
     def left(self):
         self.set_0()
-        self.set_1(-1,0)
+        self.set_1(-1, 0)
 
     def right(self):
         self.set_0()
-        self.set_1(1,0)
+        self.set_1(1, 0)
 
     def space(self):
         x = self.shape.x
         y = self.shape.y
-        col_y = self.collision_y(y+1) # maybe test auf y > len(self.matrix) or smt
-        col_shape = self.collision_shape(x,y+1)
+        col_y = self.collision_y(y+1)
+        col_shape = self.collision_shape(x, y+1)
         while not col_shape and not col_y:
             self.down()
             x = self.shape.x
@@ -315,11 +318,11 @@ class Game:
             col_y = self.collision_y(y+1)
             if col_y:
                 break
-            col_shape = self.collision_shape(x,y+1)
+            col_shape = self.collision_shape(x, y+1)
         self.down()
         self.draw()
 
-    #Festsetzen der Steine
+    # Festsetzen der Steine
     def freeze(self):
         run_x = 0
         run_y = 0
@@ -338,13 +341,13 @@ class Game:
         self.break_line()
         self.create_shape()
 
-    #volle Line kaputtmachen
+    # volle Line kaputtmachen
     def break_line(self):
         matrix_x = 0
         matrix_y = 0
         lines = 0
         base_points = 0
-        for i in range (len(self.matrix)):
+        for i in range(len(self.matrix)):
             matrix_x = 0
             if self.matrix[matrix_y].count(2) == len(self.matrix[matrix_y]):
                 lines += 1
@@ -367,7 +370,7 @@ class Game:
         self.line_counter += lines
         self.level = self.line_counter // 10
 
-    #Kollision der x Werte testen
+    # Kollision der x Werte testen
     def collision_x(self, x):
         collision_x = x
         border_x = len(self.matrix[0])
@@ -386,7 +389,7 @@ class Game:
                 return True
         return False
 
-    #Kollision der y Werte Testen
+    # Kollision der y Werte Testen
     def collision_y(self, y):
         collision_y = y
         border_y = len(self.matrix)
@@ -394,7 +397,7 @@ class Game:
             return True
         return False
 
-    #Kollision mit anderen Figuren testen
+    # Kollision mit anderen Figuren testen
     def collision_shape(self, x, y):
         collision_x = x
         collision_y = y
@@ -413,7 +416,7 @@ class Game:
                 collision_y += 1
         return False
 
-    #Figur auf 0 setzen
+    # Figur auf 0 setzen
     def set_0(self):
         run_x = 0
         run_y = 0
@@ -430,7 +433,7 @@ class Game:
             run_y += 1
             matrix_y += 1
 
-    #Figur initialisieren (auf 1 setzen)
+    # Figur initialisieren (auf 1 setzen)
     def set_1(self, offset_x, offset_y):
         x = offset_x
         y = offset_y
@@ -479,7 +482,7 @@ class Game:
                 matrix_x += 1
             matrix_y += 1
 
-    # Nächster Stein Figur anziegen/ initailisieren (auf 1 setzen)
+    # Nächster Stein Figur anzeigen/ initialisieren (auf 1 setzen)
     def set_new_1(self):
         self.set_new_0()
         run_x = 0
@@ -515,15 +518,15 @@ class Game:
             matrix_y += 1
             run_y += 1
 
-    #Zeichnet Spielfeld und Spielfiguren und nächsten Stein
+    # Zeichnet Spielfeld und Spielfiguren und nächsten Stein
     def draw(self):
         x = self.x_base
         y = self.y_base
         matrix_x = 0
         matrix_y = 2
 
-        #Spielfeld
-        for i in range (len(self.matrix)-2):
+        # Spielfeld
+        for i in range(len(self.matrix)-2):
             matrix_x = 0
             x = self.x_base
             for j in range(len(self.matrix[matrix_y])):
@@ -532,14 +535,14 @@ class Game:
                 elif self.matrix[matrix_y][matrix_x] == 1:
                     tetromino = pygame.draw.rect(screen, colors[self.color], pygame.Rect(x, y, self.tile, self.tile))
                 elif self.matrix[matrix_y][matrix_x] == 2:
-                    setteled = pygame.draw.rect(screen, colors[old_color], pygame.Rect(x, y, self.tile, self.tile))
+                    settled = pygame.draw.rect(screen, colors[old_color], pygame.Rect(x, y, self.tile, self.tile))
                 game_border = pygame.draw.rect(screen, BLACK, pygame.Rect(x, y, self.tile, self.tile), 1)
                 matrix_x += 1
                 x += self.tile
             matrix_y += 1
             y += self.tile
 
-        #nächstes Stück
+        # nächstes Stück
         x = self.x_next_base
         y = self.y_next_base
         matrix_x = 0
@@ -558,7 +561,7 @@ class Game:
             matrix_y += 1
             y += self.tile
 
-    #Überprüft ob der Spieler verloren hat
+    # Überprüft ob der Spieler verloren hat
     def end_game(self):
         matrix_x = 0
         matrix_y = 0
@@ -571,7 +574,7 @@ class Game:
             matrix_y += 1
         return False
 
-    #Matrix auf 0 setzen
+    # Matrix auf 0 setzen
     def reset(self):
         matrix_x = 0
         matrix_y = 0
@@ -591,22 +594,23 @@ class Game:
                 matrix_x += 1
             matrix_y += 1
             
-    #neuen highscore setzten falls eingetreten
+    # neuen Highscore setzen, falls eingetreten
     def set_highscore(self):
         global highscore
         tetris_score_db.new_highscore(self.score)
         highscore = tetris_score_db.get_highscore()
         highscore = highscore[0][0]
 
+
 # Action --> ALTER
 # Assign Variables
 
-#Standardfarben
+# Standardfarben
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (128, 128, 128)
 
-#Farben der Spielsteine
+# Farben der Spielsteine
 colors = {
     'I': (0, 255, 255),  # LIGHT_BLUE
     'J': (0, 0, 255),    # BLUE
@@ -617,20 +621,20 @@ colors = {
     'Z': (255, 0, 0)     # RED
 }
 
-#globale Variablen
+# globale Variablen
 bag = ["O", "S", "Z", "I", "J", "L", "T"]
 next = -1
 next_figure = 0
 old_color = 0
 
-#Highscore setzen
+# Highscore setzen
 highscore = tetris_score_db.get_highscore()
 if not highscore:
     highscore = 0
 else:
     highscore = highscore[0][0]
 
-#Initialiseierungswerte
+# Initialisierungswerte
 height = 20
 width = 10
 tile = 1
@@ -638,7 +642,7 @@ game = Game(height, width, tile)
 game.create_shape()
 game.draw()
 
-#Text
+# Text
 font_1 = pygame.font.Font(None, 40)
 level = font_1.render(f'Level: {game.level}', True, WHITE)
 score = font_1.render('Score: ', True, WHITE)
@@ -651,7 +655,7 @@ restart = font_2.render("Press R to Restart", True, GREY)
 rect_1 = restart.get_rect()
 rect_1.center = screen.get_rect().center
 
-#Laufvariablen
+# Laufvariablen
 counter = 0
 pressing_down = False
 
@@ -659,25 +663,25 @@ fps = 30
 keepGoing = True
 clock = pygame.time.Clock()
 
-#Loop
+# Loop
 while keepGoing:
 
-    #Timer
+    # Timer
     clock.tick(fps)
 
     if game.play:
         counter += 1
-        #autimatisches Bewegen
+        # automatisches Bewegen
         if counter >= fps//(game.level + 1):
             game.down()
             game.draw()
             counter = 0
-        #gedrückt halten
+        # gedrückt halten
         if pressing_down:
             game.down()
             game.draw()
 
-    # Event Handeling
+    # Event Handling
     for event in pygame.event.get():
         if event.type == QUIT:
             keepGoing = False
@@ -713,7 +717,7 @@ while keepGoing:
                 if event.key == pygame.K_DOWN:
                     pressing_down = False
 
-        #Spiel Reset
+        # Spiel Reset
         if not game.play:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
@@ -737,12 +741,12 @@ while keepGoing:
     # Redisplay
     screen.fill(BLACK)
     game.draw()
-    screen.blit(score, (10,10))
+    screen.blit(score, (10, 10))
     screen.blit(incoming, (game.x_next_base,game.y_next_base-30))
     points = font_1.render(f'{game.score}', True, WHITE)
     level = font_1.render(f'Level: {game.level}', True, WHITE)
     h_score = font_1.render(f'Highscore: {highscore}', True, WHITE)
-    screen.blit(points, (10,40))
+    screen.blit(points, (10, 40))
     screen.blit(level, (screen_width-125, 10))
     screen.blit(h_score, (10, game.y_base+410))
     if not game.play:
