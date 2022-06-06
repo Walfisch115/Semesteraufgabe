@@ -4,7 +4,7 @@ import random
 
 from pygame.locals import *
 
-#Zum erstellen der Highscore Datenbank
+# Zum erstellen der Highscore Datenbank
 import tetris_score_db
 
 pygame.init()
@@ -236,7 +236,7 @@ class Game:
             self.color = self.shape.get_color()
             if old_color == 0:
                 old_color = self.color
-            self.set_1(0,0)
+            self.set_1(0, 0)
             self.set_new_1()
         else:
             self.set_highscore()
@@ -250,11 +250,11 @@ class Game:
         self.piece = self.shape.get_image()
         col_shape = self.collision_shape(self.shape.x, self.shape.y)
         if col_shape:
-            if dir == 'left':
+            if direction == 'left':
                 old_rot = game.shape.rotation
                 self.shape.rotate_right()
                 game.update_shape(old_rot, 'right')
-            elif dir == 'right':
+            elif direction == 'right':
                 old_rot = game.shape.rotation
                 game.shape.rotate_left()
                 game.update_shape(old_rot, 'left')
@@ -444,15 +444,15 @@ class Game:
         col_x = self.collision_x(matrix_x)
         col_y = self.collision_y(matrix_y)
         if col_x:
-            self.set_1(0,0)
+            self.set_1(0, 0)
         elif col_y:
-            self.set_1(0,0)
+            self.set_1(0, 0)
             self.freeze()
             return False
         else:
             col_shape = self.collision_shape(matrix_x, matrix_y)
             if col_shape:
-                self.set_1(0,0)
+                self.set_1(0, 0)
                 self.freeze()
                 return False
             else:
@@ -742,7 +742,7 @@ while keepGoing:
     screen.fill(BLACK)
     game.draw()
     screen.blit(score, (10, 10))
-    screen.blit(incoming, (game.x_next_base,game.y_next_base-30))
+    screen.blit(incoming, (game.x_next_base, game.y_next_base-30))
     points = font_1.render(f'{game.score}', True, WHITE)
     level = font_1.render(f'Level: {game.level}', True, WHITE)
     h_score = font_1.render(f'Highscore: {highscore}', True, WHITE)
