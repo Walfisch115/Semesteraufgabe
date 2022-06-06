@@ -1,9 +1,5 @@
 # Semesteraufgabe #
 
-### "Ultimate Tetris" ###
-
-- Tetris mit erweiterten Funktionen, wie beispielsweise Power-Ups
-
 ### Spielregeln / Spielaufbau: ###
 
 - 7 Tetris-Bausteine (I, J, L, O, S, T und Z)
