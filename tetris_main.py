@@ -366,7 +366,7 @@ class Game:
         elif lines >= 4:
             base_points = 1200
         if lines >= 1:
-            self.score += base_points * (lines+1)
+            self.score += base_points * (self.level+1)
         self.line_counter += lines
         self.level = self.line_counter // 10
 
