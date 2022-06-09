@@ -1,4 +1,4 @@
-# Semesteraufgabe #
+# Tetris #
 
 ### Spielregeln / Spielaufbau: ###
 
@@ -14,3 +14,12 @@
 ### Spielende ###
 
 - Das Spiel endet, sobald sich die nicht abgebauten Reihen, also jene mit Lücken, bis zum oberen Spielfeldrand aufgetürmt haben.
+
+### Steuerung ###
+
+- LEFT - Figur nach Links bewegen
+- RIGHT - Figur nach Rechts bewegen
+- DOWN - Soft Drop
+- SPACE - Hard Drop
+- A - Figur gegen den Uhrzeigersinn drehen
+- S - Figur im Uhrzeigersinn drehen
